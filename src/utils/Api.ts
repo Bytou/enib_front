@@ -15,7 +15,7 @@ export async function getBooks(): Promise<Book[] | null> {
   }
 }
 
-export async function getBookdWithAuthor(author: string): Promise<Book[] | null> {
+export async function getBooksWithAuthor(author: string): Promise<Book[] | null> {
   const resp = await axios.get(base + '/author?author=' + author)
   if (resp.status == 200) {
     return resp.data as Book[]

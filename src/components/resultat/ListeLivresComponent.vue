@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { Book } from '@/types/Book'
-import { getBookdWithAuthor, getBooks } from '@/utils/Api'
+import { getBooksWithAuthor, getBooks } from '@/utils/Api'
 import CardBookComponent from './CardBookComponent.vue'
 import PaginationComponent from './PaginationComponent.vue'
 import { Columns } from '@/types/Columns'
@@ -62,7 +62,7 @@ function openBookModal(book: Book) {
 
 async function loadBooksWithAuthor(author: string) {
   isReady.value = false
-  const resp = await getBookdWithAuthor(author)
+  const resp = await getBooksWithAuthor(author)
   if (resp != null) {
     listbook.value = resp
   }
