@@ -86,4 +86,5 @@ export async function updateBook(book: Book) {
     console.error('Erreur lors de la mise à jour du livre')
     return null
   }
+  
 }
