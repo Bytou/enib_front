@@ -8,6 +8,7 @@
 import { computed } from 'vue'
 
 const activeColor = computed(() => {
-  return '#29B6F6'
+  var rgbColor = Math.floor(Math.random()*16777215).toString(16)
+  return '#' + rgbColor
 })
 </script>
