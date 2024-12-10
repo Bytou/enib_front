@@ -2,7 +2,7 @@
   <div class="card-wrapper">
     <div class="title">{{ book.title }}</div>
     <div class="author">{{ book.author }}</div>
-    <div class="date">{{ book.releaseDate }}</div>
+    <div class="date">{{ displayYear(book.releaseDate) }}</div>
     <div class="note">{{ note }} <StarIcon v-if="book.rating" class="icons" /></div>
     <div class="link">
       <button @click="updateBook">
@@ -31,6 +31,10 @@ const note = ref<string>(props.book.rating != undefined ? noteTo3Dec(props.book.
 
 function updateBook() {
   emits('updateBook', props.book)
+}
+
+function displayYear(date: string) {
+  return new Date(date).getFullYear()
 }
 
 async function onSave(newNote: string) {
