@@ -71,6 +71,7 @@
               Valider
             </button>
             <button class="modal-button" @click="closeModal">Annuler</button>
+            <button class="modal-button" @click="deleteModal">Supprimer</button>
           </div>
         </div>
       </div>
@@ -79,12 +80,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineExpose, computed } from 'vue'
+import { ref, defineExpose, computed, useEmit } from 'vue'
 import { PlusIcon } from '@heroicons/vue/24/outline'
 import { Book } from '@/types/Book'
 import PillComponent from './commons/PillComponent.vue'
 import { generateId } from '@/utils/Methods'
-import { createBook, updateBook } from '@/utils/Api'
+import { createBook, deleteBook, updateBook } from '@/utils/Api'
+
+const emit = defineEmits(['book-deleted'])
 
 const showModal = ref<boolean>(true)
 
@@ -98,6 +101,18 @@ const book = ref<Book | null>()
 const titre = computed(() =>
   book.value?.id != 0 ? 'Modification du livre' : "Création d'un livre"
 )
+
+
+async function deleteModal() {
+  if(book.value){
+    if(book.value.id !=0){
+      await deleteBook(book.value.id)
+      console.log("Deleting book id: ", book.value.id)
+      emit('book-deleted', book.value.id)
+    }
+  }
+  closeModal()
+}
 
 const newGenre = ref('')
 function addGenre() {
