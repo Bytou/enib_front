@@ -15,7 +15,7 @@
       <p>Aucune référence ne coïncide avec votre recherche</p>
     </div>
     <PaginationComponent v-if="pageMax > 1" :page-max="pageMax" @change-page="changePage" />
-    <EditModal ref="edit" />
+    <EditModal ref="edit" @book-deleted="loadBooks" />
   </div>
 </template>
 
