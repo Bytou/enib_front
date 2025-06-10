@@ -2,6 +2,10 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
+## Taiga
+
+[Lien Taiga](https://tree.taiga.io/project/eddonald-cours-enib/taskboard/msi-enib-2024-evolutions-et-corrections-du-front-end)
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
