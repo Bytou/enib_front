@@ -5,7 +5,11 @@
         <div class="select-wrapper">
           <input type="checkbox" class="select" />
         </div>
-        <CardBookComponent :book="book" @update-book="openBookModal" />
+        <CardBookComponent
+          :book="book"
+          @update-book="openBookModal"
+          @delete-book="openDeleteModal"
+        />
       </div>
     </div>
     <div v-else-if="isReady && listbook.length < 1" class="nobook_msg">
@@ -16,6 +20,7 @@
     </div>
     <PaginationComponent v-if="pageMax > 1" :page-max="pageMax" @change-page="changePage" />
     <EditModal ref="edit" />
+    <DeleteModal ref="deleteBookModal" @book-deleted="onBookDeleted" />
   </div>
 </template>
 
@@ -29,13 +34,14 @@ import { Columns } from '@/types/Columns'
 import { Order } from '@/types/Order'
 import { FaceFrownIcon } from '@heroicons/vue/24/outline'
 import EditModal from '../EditModal.vue'
-
+import DeleteModal from '../DeleteModal.vue'
 const listbook = ref<Array<Book>>([])
 const isReady = ref<boolean>(false)
 const nb_book_shown = ref<number>(10)
 const page = ref<number>(1)
 const pageMax = computed(() => Math.ceil(listbook.value.length / nb_book_shown.value))
 const edit = ref<null | InstanceType<typeof EditModal>>()
+const deleteBookModal = ref<null | InstanceType<typeof DeleteModal>>()
 
 const bookShown = computed(() =>
   listbook.value.slice(nb_book_shown.value * (page.value - 1), nb_book_shown.value * page.value)
@@ -58,6 +64,10 @@ const loadBooks = async () => {
 
 function openBookModal(book: Book) {
   edit.value?.openModal(book)
+}
+
+function openDeleteModal(book: Book) {
+  deleteBookModal.value?.openDeleteModal(book)
 }
 
 async function loadBooksWithAuthor(author: string) {
@@ -91,6 +101,14 @@ function sortList(column: Columns, order: Order) {
       return a[col] > b[col] ? -1 : 1
     }
   })
+}
+
+function onBookDeleted(deletedBookId: number) {
+  listbook.value = listbook.value.filter((book) => book.id !== deletedBookId)
+  const newPageMax = Math.max(1, Math.ceil(listbook.value.length / nb_book_shown.value))
+  if (page.value > newPageMax) {
+    page.value = newPageMax
+  }
 }
 
 defineExpose({ sortList, loadBooksWithAuthor, loadBooks })

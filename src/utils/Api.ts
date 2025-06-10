@@ -87,3 +87,14 @@ export async function updateBook(book: Book) {
     return null
   }
 }
+
+export async function deleteBook(book: Book): Promise<boolean | null> {
+  const url = base + '/id/' + book.id
+  const resp = await axios.delete(url)
+  if (resp.status == 200) {
+    return true
+  } else {
+    console.error('Erreur lors de la suppression du livre ' + book.id)
+    return false
+  }
+}
